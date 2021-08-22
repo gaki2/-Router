@@ -7,49 +7,33 @@ function Home() {
   return (
     <div>
       <h2>Home</h2>
-      Here is home. :l
+      home is ...
     </div>
   )
 }
 
 let contents = [
-  {id : 1, title : 'HTML', description: 'HTML is ...'},
-  {id : 2, title : 'CSS', description: 'CSS is ...'},
-  {id : 3, title : 'JS', description: 'JS is ...'},
+  { id : 1, title: '오늘의 명언', description: '실패도 습관이다'},
+  { id : 2, title: '코로나 바이러스 확진자 수', description: '한국 : 1600 명'},
+  { id : 3, title: '어떻게 성공 할 것인가?', description: '생생하게 꿈꿔라' },
 ]
 
-function Topic() {
-  const params = useParams();
-  const id = params.topic_id;
-  let selected_topic = {
-    title : 'sorry',
-    description : 'page not found',
-  }
-  for (let i = 0; i < contents.length; i++) {
-    if (contents[i].id === Number(id)) {
-      selected_topic = contents[i];
-      break ;
-    }
-  }
-  return (
-    <div>
-      <h2>{selected_topic.title}</h2>
-      {selected_topic.description}
-    </div>
-  )
-}
-
 function Topics() {
-  let lis = [];
+  let topics = [];
+  let routers = [];
   for (let i = 0; i < contents.length; i++) {
-    lis.push(<li><Link to={`/topics/${contents[i].id}`}>{contents[i].title}</Link></li>)
+    topics.push(<li><NavLink to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>)
+  }
+  for (let i = 0; i < contents.length; i++) {
+    routers.push(<Route path={`/topics/${contents[i].id}`}>{contents[i].description}</Route>)
   }
   return (
     <div>
+      <h2>Topics</h2>
       <ul>
-        {lis}
+        {topics}
       </ul>
-      <Route path='/topics/:topic_id'><Topic></Topic></Route>
+        {routers}
     </div>
   )
 }
@@ -58,25 +42,35 @@ function Contact() {
   return (
     <div>
       <h2>Contact</h2>
-      Contact...
+      Contact is ...
     </div>
   )
 }
+
+function NotFound() {
+  return (
+    <div>
+      <h2>이 페이지는 존재하지 않습니다.</h2>
+    </div>
+  )
+}
+
+
 
 function App() {
   return (
     <div>
       <h1>React Router DOM example</h1>
       <ul>
-        <li><Link to='/'>Home</Link></li>
-        <li><Link to='/topics'>Topics</Link></li>
-        <li><Link to='/contact'>Contact</Link></li>
+        <li><NavLink exact to='/'>Home</NavLink></li>
+        <li><NavLink to='/topics'>Topics</NavLink></li>
+        <li><NavLink to='/contact'>Contact</NavLink></li>
       </ul>
       <Switch>
-      <Route exact path='/'><Home></Home></Route>
-      <Route path='/topics'><Topics></Topics></Route>
-      <Route path='/contact'><Contact></Contact></Route>
-      <Route path='/'>page not found</Route>
+        <Route exact path='/'><Home></Home></Route>
+        <Route path='/topics'><Topics></Topics></Route>
+        <Route path='/contact'><Contact></Contact></Route>
+        <Route path='/'><NotFound></NotFound></Route>
       </Switch>
     </div>
   )
