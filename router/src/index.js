@@ -6,34 +6,44 @@ import './index.css'
 function Home() {
   return (
     <div>
-      <h2>Home</h2>
-      home is ...
+      <h1>Home</h1>
+      home is home ...
     </div>
   )
 }
 
 let contents = [
-  { id : 1, title: '오늘의 명언', description: '실패도 습관이다'},
-  { id : 2, title: '코로나 바이러스 확진자 수', description: '한국 : 1600 명'},
-  { id : 3, title: '어떻게 성공 할 것인가?', description: '생생하게 꿈꿔라' },
+  { id: 1, title: '유', content: '나는 성공한다' },
+  { id: 2, title: '병', content: '나는 무조건 성공한다' },
+  { id: 3, title: '각', content: '나는 천억장자가 된다' },
 ]
 
-function Topics() {
-  let topics = [];
-  let routers = [];
+function Topic() {
+  let id = useParams().id;
+  let description = '존재하지 않는 글입니다.'
   for (let i = 0; i < contents.length; i++) {
-    topics.push(<li><NavLink to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>)
+    if (contents[i].id === Number(id)) {
+      description = contents[i].content;
+      break;
+    }
   }
+  return (
+    <h1>{description}</h1>
+  )
+}
+
+function Topics() {
+  let lis = [];
   for (let i = 0; i < contents.length; i++) {
-    routers.push(<Route path={`/topics/${contents[i].id}`}>{contents[i].description}</Route>)
+    lis.push(<li><NavLink exact to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>);
   }
   return (
     <div>
-      <h2>Topics</h2>
+      <h1>Topics</h1>
       <ul>
-        {topics}
+        {lis}
+        <Route exact path='/topics/:id'><Topic></Topic></Route>
       </ul>
-        {routers}
     </div>
   )
 }
@@ -41,20 +51,12 @@ function Topics() {
 function Contact() {
   return (
     <div>
-      <h2>Contact</h2>
-      Contact is ...
+      <h1>Contact</h1>
+      이름 : 병각 유
+      번호 : 0104030719*
     </div>
   )
 }
-
-function NotFound() {
-  return (
-    <div>
-      <h2>이 페이지는 존재하지 않습니다.</h2>
-    </div>
-  )
-}
-
 
 
 function App() {
@@ -65,16 +67,15 @@ function App() {
         <li><NavLink exact to='/'>Home</NavLink></li>
         <li><NavLink to='/topics'>Topics</NavLink></li>
         <li><NavLink to='/contact'>Contact</NavLink></li>
+        <Switch>
+          <Route exact path='/'><Home></Home></Route>
+          <Route path='/topics'><Topics></Topics></Route>
+          <Route path='/contact'><Contact></Contact></Route>
+          <Route path='/'><h1>존재하지 않는 페이지입니다.</h1></Route>
+        </Switch>
       </ul>
-      <Switch>
-        <Route exact path='/'><Home></Home></Route>
-        <Route path='/topics'><Topics></Topics></Route>
-        <Route path='/contact'><Contact></Contact></Route>
-        <Route path='/'><NotFound></NotFound></Route>
-      </Switch>
     </div>
   )
 }
-
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
