@@ -1,34 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Link, NavLink, Switch, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Switch, useParams } from 'react-router-dom';
 import './index.css'
 
-function Home() {
-  return (
-    <div>
-      <h1>Home</h1>
-      home is home ...
-    </div>
-  )
-}
 
 let contents = [
-  { id: 1, title: '유', content: '나는 성공한다' },
-  { id: 2, title: '병', content: '나는 무조건 성공한다' },
-  { id: 3, title: '각', content: '나는 천억장자가 된다' },
+  {id : 1, title : '유병각의 성공신화', content: '훈남 천억장자 유병각 그의 행보는?'},
+  {id : 2, title : '천억장자 유병각 그에 대해 알아보자', content: '고려대학교 졸업'},
+  {id : 3, title : '유병각의 일대기', content: '저서 : 성공하는 방법'}
 ]
 
+
 function Topic() {
-  let id = useParams().id;
-  let description = '존재하지 않는 글입니다.'
+  let topic_id = useParams().topic_id;
+  let content = 'No content';
   for (let i = 0; i < contents.length; i++) {
-    if (contents[i].id === Number(id)) {
-      description = contents[i].content;
+    if (Number(topic_id) === contents[i].id) {
+      content = contents[i].content;
       break;
     }
   }
   return (
-    <h1>{description}</h1>
+    <div>
+      <h3>{content}</h3>
+    </div>
   )
 }
 
@@ -37,13 +32,14 @@ function Topics() {
   for (let i = 0; i < contents.length; i++) {
     lis.push(<li><NavLink exact to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>);
   }
+
   return (
     <div>
       <h1>Topics</h1>
       <ul>
         {lis}
-        <Route exact path='/topics/:id'><Topic></Topic></Route>
       </ul>
+      <Route exact path='/topics/:topic_id'><Topic></Topic></Route>
     </div>
   )
 }
@@ -52,8 +48,16 @@ function Contact() {
   return (
     <div>
       <h1>Contact</h1>
-      이름 : 병각 유
-      번호 : 0104030719*
+      Contact is contact ...
+    </div>
+  )
+}
+
+function Home() {
+  return (
+    <div>
+      <h1>Home</h1>
+      Home is home ...
     </div>
   )
 }
@@ -62,20 +66,23 @@ function Contact() {
 function App() {
   return (
     <div>
-      <h1>React Router DOM example</h1>
+      <h1>React Router DOM Example</h1>
       <ul>
         <li><NavLink exact to='/'>Home</NavLink></li>
-        <li><NavLink to='/topics'>Topics</NavLink></li>
-        <li><NavLink to='/contact'>Contact</NavLink></li>
-        <Switch>
-          <Route exact path='/'><Home></Home></Route>
-          <Route path='/topics'><Topics></Topics></Route>
-          <Route path='/contact'><Contact></Contact></Route>
-          <Route path='/'><h1>존재하지 않는 페이지입니다.</h1></Route>
-        </Switch>
+        <li><NavLink exact to='/topics'>Topics</NavLink></li>
+        <li><NavLink exact to='/contact'>Contact</NavLink></li>
       </ul>
+      <Switch>
+        <Route exact path='/'><Home></Home></Route>
+        <Route path='/contact'><Contact></Contact></Route>
+        <Route path='/topics'><Topics></Topics></Route>
+        <Route path='/'>No Page</Route>
+      </Switch>
     </div>
+
   )
 }
+
+
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
