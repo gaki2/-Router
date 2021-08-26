@@ -4,20 +4,29 @@ import { BrowserRouter, Route, NavLink, Switch, useParams } from 'react-router-d
 import './index.css'
 
 
-let contents = [
-  {id : 1, title : '유병각의 성공신화', content: '훈남 천억장자 유병각 그의 행보는?'},
-  {id : 2, title : '천억장자 유병각 그에 대해 알아보자', content: '고려대학교 졸업'},
-  {id : 3, title : '유병각의 일대기', content: '저서 : 성공하는 방법'}
-]
+function Contact() {
+  return (
+    <div>
+      <h1>Contact</h1>
+      Contact is contact ...
+    </div>
+  )
+}
 
+let contents = [
+  {id : 1, title : '유병각', content: '성공한다'},
+  {id : 2, title : '유병각', content: '성공한 남자'},
+  {id : 3, title : '유병각', content: '성공했다'},
+];
 
 function Topic() {
-  let topic_id = useParams().topic_id;
-  let content = 'No content';
+  let content_id = useParams().content_id;
+  console.log(content_id);
+  let content = 'no content';
   for (let i = 0; i < contents.length; i++) {
-    if (Number(topic_id) === contents[i].id) {
+    if (Number(content_id) === contents[i].id) {
       content = contents[i].content;
-      break;
+      break ;
     }
   }
   return (
@@ -27,28 +36,19 @@ function Topic() {
   )
 }
 
+
 function Topics() {
   let lis = [];
   for (let i = 0; i < contents.length; i++) {
-    lis.push(<li><NavLink exact to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>);
+    lis.push(<li><NavLink to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>);
   }
-
   return (
     <div>
       <h1>Topics</h1>
       <ul>
         {lis}
       </ul>
-      <Route exact path='/topics/:topic_id'><Topic></Topic></Route>
-    </div>
-  )
-}
-
-function Contact() {
-  return (
-    <div>
-      <h1>Contact</h1>
-      Contact is contact ...
+      <Route path='/topics/:content_id'><Topic></Topic></Route>
     </div>
   )
 }
@@ -62,26 +62,25 @@ function Home() {
   )
 }
 
-
 function App() {
   return (
     <div>
       <h1>React Router DOM Example</h1>
       <ul>
         <li><NavLink exact to='/'>Home</NavLink></li>
-        <li><NavLink exact to='/topics'>Topics</NavLink></li>
-        <li><NavLink exact to='/contact'>Contact</NavLink></li>
+        <li><NavLink to='/topics'>Topics</NavLink></li>
+        <li><NavLink to='/contact'>Contact</NavLink></li>
       </ul>
       <Switch>
         <Route exact path='/'><Home></Home></Route>
-        <Route path='/contact'><Contact></Contact></Route>
         <Route path='/topics'><Topics></Topics></Route>
-        <Route path='/'>No Page</Route>
+        <Route path='/contact'><Contact></Contact></Route>
+        <Route path='/'>No page</Route>
       </Switch>
     </div>
-
   )
 }
+
 
 
 
