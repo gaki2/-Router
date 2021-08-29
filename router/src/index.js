@@ -4,43 +4,41 @@ import { BrowserRouter, Route, NavLink, Switch, useParams } from 'react-router-d
 import './index.css'
 
 let contents = [
-  {id : 1, title: '민지', content: '병각'},
-  {id : 2, title: '민지', content: '나를 좋아함'},
-  {id : 3, title: '강민지', content: '민지밖에없음.'},
+  { id: 1, title: '민지', content: '병각' },
+  { id: 2, title: '강지', content: '밍지' },
+  { id: 3, title: '민강지', content: '민지' },
 ]
 
 function Topic() {
-  let id = useParams().content_id;
-  let content;
-  for(let i = 0; i < contents.length; i++) {
-    if (Number(id) === contents[i].id) {
+  let id = useParams().id;
+  let content = '글이 없습니다.'
+  for (let i = 0; i < contents.length; i++) {
+    if (contents[i].id === Number(id)) {
       content = contents[i].content;
-      break ;
+      break;
     }
   }
-  return(
+  return (
     <div>
-      <h3>{content}</h3>
+      <h1>{content}</h1>
     </div>
   )
 }
-
 
 function Topics() {
   let lis = [];
   for (let i = 0; i < contents.length; i++) {
-    lis.push(<li><NavLink to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>)
+    lis.push(<li><NavLink to={`/topics/${contents[i].id}`}>{contents[i].title}</NavLink></li>);
   }
-  return(
+  return (
     <div>
       <ul>
         {lis}
       </ul>
-      <Route path='/topics/:content_id'><Topic></Topic></Route>
+      <Route path='/topics/:id'><Topic></Topic></Route>
     </div>
   )
 }
-
 
 function Contact() {
   return (
@@ -63,19 +61,18 @@ function Home() {
 function App() {
   return (
     <div>
-      <h1>React Router DOM</h1>
+      <h1>React Router DOM example</h1>
       <ul>
         <li><NavLink exact to='/'>Home</NavLink></li>
-        <li><NavLink to='/contact'>Contact</NavLink></li>
-        <li><NavLink to='/topics'>Topics</NavLink></li>
+        <li><NavLink exact to='/contact'>Contact</NavLink></li>
+        <li><NavLink exact to='/topics'>Topics</NavLink></li>
       </ul>
       <Switch>
         <Route exact path='/'><Home></Home></Route>
-        <Route  path='/contact'><Contact></Contact></Route>
-        <Route  path='/topics'><Topics></Topics></Route>
+        <Route path='/contact'><Contact></Contact></Route>
+        <Route path='/topics'><Topics></Topics></Route>
         <Route path='/'>No page</Route>
       </Switch>
-      
     </div>
   )
 }
